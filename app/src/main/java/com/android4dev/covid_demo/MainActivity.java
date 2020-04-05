@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private MainActivity mainActivity;
+    public static int p=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.navigation_view);
         mainActivity=this;
         //Default Fragment
-        HomeFragment homefragment = new HomeFragment(this);
+        HomeFragment homefragment = new HomeFragment(this,p);
         android.support.v4.app.FragmentTransaction homeFragmentTransaction
                 = getSupportFragmentManager().beginTransaction();
         homeFragmentTransaction.replace(R.id.frame,homefragment);
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()){
 
                     case R.id.home:
-                        HomeFragment homefragment = new HomeFragment(mainActivity);
+                        HomeFragment homefragment = new HomeFragment(mainActivity,p);
                         android.support.v4.app.FragmentTransaction homeFragmentTransaction
                                 = getSupportFragmentManager().beginTransaction();
                         homeFragmentTransaction.replace(R.id.frame,homefragment);
@@ -164,6 +165,10 @@ public class MainActivity extends AppCompatActivity {
         }));
 
 
+    }
+    public void setP(int k)
+    {
+        this.p=k;
     }
     public synchronized void loadfragment(View v)
     {

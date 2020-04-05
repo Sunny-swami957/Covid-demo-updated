@@ -518,14 +518,18 @@ public class SelfAssessmentFragment extends Fragment implements View.OnClickList
         Log.d("suggest",sym+","+cond+","+app+"\n");
         if(sym>0&&cond>0&&app>0)
         {
+            mainActivity.setP(3);
             return getResources().getString(R.string.sugg_high);
         }
         else if(app>0)
         {
+            mainActivity.setP(2);
             return getResources().getString(R.string.sugg_moderate);
-        }else if(app==0&&(sym>0||cond>0))
+        }else if(app==0&&(sym>0||cond>0)) {
+            mainActivity.setP(1);
             return getResources().getString(R.string.sugg_low_2);
-
+        }
+        mainActivity.setP(1);
         return getResources().getString(R.string.sugg_low_1);
     }
     public void reset()

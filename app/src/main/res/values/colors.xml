@@ -12,4 +12,5 @@
     <color name="ans_color">#FFFDFD</color>
     <color name="black_color">#131212</color>
     <color name="sa_bkg_color">#E2E0E0</color>
+    <color name="sa_bkg_mod_color">#ECBC1C</color>
 </resources>
