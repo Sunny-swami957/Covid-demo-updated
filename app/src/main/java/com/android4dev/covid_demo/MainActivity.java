@@ -5,11 +5,13 @@ import android.content.IntentSender;
 import android.net.Uri;
 import android.support.annotation.LayoutRes;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         HomeFragment homefragment = new HomeFragment(this,p);
         android.support.v4.app.FragmentTransaction homeFragmentTransaction
                 = getSupportFragmentManager().beginTransaction();
-        homeFragmentTransaction.replace(R.id.frame,homefragment);
+        homeFragmentTransaction.replace(R.id.frame,homefragment).addToBackStack("home");
         homeFragmentTransaction.commit();
 
         //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
@@ -67,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                         HomeFragment homefragment = new HomeFragment(mainActivity,p);
                         android.support.v4.app.FragmentTransaction homeFragmentTransaction
                                 = getSupportFragmentManager().beginTransaction();
-                        homeFragmentTransaction.replace(R.id.frame,homefragment);
+                        homeFragmentTransaction.replace(R.id.frame,homefragment).addToBackStack("home");
                         homeFragmentTransaction.commit();
                         return true;
 
@@ -76,18 +78,12 @@ public class MainActivity extends AppCompatActivity {
                         TrackerFragment a1fragment = new TrackerFragment();
                         android.support.v4.app.FragmentTransaction a1FragmentTransaction
                                 = getSupportFragmentManager().beginTransaction();
-                        a1FragmentTransaction.replace(R.id.frame,a1fragment);
+                        a1FragmentTransaction.replace(R.id.frame,a1fragment).addToBackStack("tracker");
                         a1FragmentTransaction.commit();
 
                         return true;
 
-                    case R.id.a2:
-                        TrendsFragment a2fragment = new TrendsFragment();
-                        android.support.v4.app.FragmentTransaction a2FragmentTransaction
-                                = getSupportFragmentManager().beginTransaction();
-                        a2FragmentTransaction.replace(R.id.frame,a2fragment);
-                        a2FragmentTransaction.commit();
-                        return true;
+
 
 
                     default:
@@ -100,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Initializing Drawer Layout and ActionBarToggle
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+
         ActionBarDrawerToggle actionBarDrawerToggle
                 = new ActionBarDrawerToggle(this,drawerLayout,toolbar,
                 R.string.openDrawer, R.string.closeDrawer){
@@ -148,23 +145,10 @@ public class MainActivity extends AppCompatActivity {
     }
     public void callNumber(final String s)
     {
-        runOnUiThread(new Thread(new Runnable() {
-            @Override
-            public void run()
-            {
-                    try{
-                        Intent callIntent = new Intent(Intent.ACTION_DIAL);
-                        callIntent.setData(Uri.parse(s));
-                        startActivity(callIntent);
-                    }catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
-
-            }
-        }));
-
-
+        Uri uri = Uri.parse(s); // missing 'http://' will cause crashed
+        Intent intent = new Intent(Intent.ACTION_DIAL, uri);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mainActivity.getApplicationContext().startActivity(intent);
     }
     public void setP(int k)
     {
@@ -178,25 +162,81 @@ public class MainActivity extends AppCompatActivity {
                 SelfAssessmentFragment homefragment = new SelfAssessmentFragment(mainActivity);
                 android.support.v4.app.FragmentTransaction homeFragmentTransaction
                         = getSupportFragmentManager().beginTransaction();
-                homeFragmentTransaction.replace(R.id.frame,homefragment);
+                homeFragmentTransaction.replace(R.id.frame,homefragment).addToBackStack("self");
                 homeFragmentTransaction.commit();
                 break;
             case R.id.hrlp_line:
                 HelpLinesFragment homefragment1 = new HelpLinesFragment(mainActivity);
                 android.support.v4.app.FragmentTransaction homeFragmentTransaction1
                         = getSupportFragmentManager().beginTransaction();
-                homeFragmentTransaction1.replace(R.id.frame,homefragment1);
+                homeFragmentTransaction1.replace(R.id.frame,homefragment1).addToBackStack("help");
                 homeFragmentTransaction1.commit();
                 break;
             case R.id.test_center:
                 TestCenterFragment homefragment2 = new TestCenterFragment();
                 android.support.v4.app.FragmentTransaction homeFragmentTransaction2
                         = getSupportFragmentManager().beginTransaction();
-                homeFragmentTransaction2.replace(R.id.frame,homefragment2);
+                homeFragmentTransaction2.replace(R.id.frame,homefragment2).addToBackStack("test");
                 homeFragmentTransaction2.commit();
                 break;
             default:
                 break;
+        }
+    }
+    @Override
+    public void onResume() {
+
+        super.onResume();
+
+    }
+    @Override
+    public void onBackPressed() {
+        int x=getSupportFragmentManager().getBackStackEntryCount();
+        if (x > 0) {
+
+
+            getFragmentManager().popBackStack();
+                    String s=getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-2).getName();
+                    Log.d("Tag",getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-2).getName());
+                    if(s=="home")
+                    {
+                        HomeFragment homefragment = new HomeFragment(mainActivity,p);
+                        android.support.v4.app.FragmentTransaction homeFragmentTransaction
+                                = getSupportFragmentManager().beginTransaction();
+                        homeFragmentTransaction.replace(R.id.frame,homefragment).addToBackStack("home");
+                        homeFragmentTransaction.commit();
+                    }else if(s=="tracker")
+                    {
+                        TrackerFragment a1fragment = new TrackerFragment();
+                        android.support.v4.app.FragmentTransaction a1FragmentTransaction
+                                = getSupportFragmentManager().beginTransaction();
+                        a1FragmentTransaction.replace(R.id.frame,a1fragment).addToBackStack("tracker");
+                        a1FragmentTransaction.commit();
+                    }else if(s=="self")
+                    {
+                        SelfAssessmentFragment homefragment = new SelfAssessmentFragment(mainActivity);
+                        android.support.v4.app.FragmentTransaction homeFragmentTransaction
+                                = getSupportFragmentManager().beginTransaction();
+                        homeFragmentTransaction.replace(R.id.frame,homefragment).addToBackStack("self");
+                        homeFragmentTransaction.commit();
+                    }else if(s=="help")
+                    {
+                        HelpLinesFragment homefragment1 = new HelpLinesFragment(mainActivity);
+                        android.support.v4.app.FragmentTransaction homeFragmentTransaction1
+                                = getSupportFragmentManager().beginTransaction();
+                        homeFragmentTransaction1.replace(R.id.frame,homefragment1).addToBackStack("help");
+                        homeFragmentTransaction1.commit();
+                    }else if(s=="test")
+                    {
+                        TestCenterFragment homefragment2 = new TestCenterFragment();
+                        android.support.v4.app.FragmentTransaction homeFragmentTransaction2
+                                = getSupportFragmentManager().beginTransaction();
+                        homeFragmentTransaction2.replace(R.id.frame,homefragment2).addToBackStack("test");
+                        homeFragmentTransaction2.commit();
+                    }
+
+        } else {
+            super.onBackPressed();
         }
     }
 }
