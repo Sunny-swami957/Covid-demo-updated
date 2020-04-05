@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="PrimaryColor">#2196F3</color>
-    <color name="PrimaryDarkColor">#1976D2</color>
+    <color name="PrimaryDarkColor">#037FF8</color>
     <color name="GreenColor">#23A024</color>
     <color name="color_gray">#A5ACA5</color>
     <color name="assess_color">#CAE2EB</color>
     <color name="light_green_color">#B1E4B3</color>
     <color name="red_alert_color">#F19A91</color>
     <color name="footer_color">#979393</color>
+    <color name="que_color">#813A91</color>
+    <color name="ans_color">#FFFDFD</color>
+    <color name="black_color">#131212</color>
+    <color name="sa_bkg_color">#E2E0E0</color>
 </resources>

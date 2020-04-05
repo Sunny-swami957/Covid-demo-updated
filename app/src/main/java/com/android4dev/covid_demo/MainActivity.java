@@ -1,5 +1,9 @@
 package com.android4dev.covid_demo;
 
+import android.content.Intent;
+import android.content.IntentSender;
+import android.net.Uri;
+import android.support.annotation.LayoutRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -8,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -16,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
+    private MainActivity mainActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +35,9 @@ public class MainActivity extends AppCompatActivity {
         //Initializing NavigationView
         navigationView = (NavigationView)
                 findViewById(R.id.navigation_view);
-
+        mainActivity=this;
         //Default Fragment
-        HomeFragment homefragment = new HomeFragment();
+        HomeFragment homefragment = new HomeFragment(this);
         android.support.v4.app.FragmentTransaction homeFragmentTransaction
                 = getSupportFragmentManager().beginTransaction();
         homeFragmentTransaction.replace(R.id.frame,homefragment);
@@ -57,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()){
 
                     case R.id.home:
-                        HomeFragment homefragment = new HomeFragment();
+                        HomeFragment homefragment = new HomeFragment(mainActivity);
                         android.support.v4.app.FragmentTransaction homeFragmentTransaction
                                 = getSupportFragmentManager().beginTransaction();
                         homeFragmentTransaction.replace(R.id.frame,homefragment);
@@ -71,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
                                 = getSupportFragmentManager().beginTransaction();
                         a1FragmentTransaction.replace(R.id.frame,a1fragment);
                         a1FragmentTransaction.commit();
+
                         return true;
 
                     case R.id.a2:
@@ -137,5 +144,54 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    public void callNumber(final String s)
+    {
+        runOnUiThread(new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
+                    try{
+                        Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                        callIntent.setData(Uri.parse(s));
+                        startActivity(callIntent);
+                    }catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+
+            }
+        }));
+
+
+    }
+    public synchronized void loadfragment(View v)
+    {
+        switch(v.getId())
+        {
+            case R.id.self_ass:
+                SelfAssessmentFragment homefragment = new SelfAssessmentFragment(mainActivity);
+                android.support.v4.app.FragmentTransaction homeFragmentTransaction
+                        = getSupportFragmentManager().beginTransaction();
+                homeFragmentTransaction.replace(R.id.frame,homefragment);
+                homeFragmentTransaction.commit();
+                break;
+            case R.id.hrlp_line:
+                HelpLinesFragment homefragment1 = new HelpLinesFragment(mainActivity);
+                android.support.v4.app.FragmentTransaction homeFragmentTransaction1
+                        = getSupportFragmentManager().beginTransaction();
+                homeFragmentTransaction1.replace(R.id.frame,homefragment1);
+                homeFragmentTransaction1.commit();
+                break;
+            case R.id.test_center:
+                TestCenterFragment homefragment2 = new TestCenterFragment();
+                android.support.v4.app.FragmentTransaction homeFragmentTransaction2
+                        = getSupportFragmentManager().beginTransaction();
+                homeFragmentTransaction2.replace(R.id.frame,homefragment2);
+                homeFragmentTransaction2.commit();
+                break;
+            default:
+                break;
+        }
     }
 }

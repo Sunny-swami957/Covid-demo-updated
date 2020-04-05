@@ -17,10 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -59,7 +56,7 @@ public class TrackerFragment extends Fragment {
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.setWebViewClient(new MyWebViewClient(this));
         mWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-        //mWebView.loadUrl("https://www.covid19india.org/");
+        mWebView.loadUrl("https://www.covid19india.org/");
 
     }
 
