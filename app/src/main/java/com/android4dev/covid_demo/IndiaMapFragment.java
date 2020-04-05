@@ -1,6 +1,5 @@
 package com.android4dev.covid_demo;
 
-
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Bundle;
@@ -12,34 +11,27 @@ import android.view.ViewGroup;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 
-import im.delight.android.webview.AdvancedWebView;
-
-/**
- * Created by jaysingh on 28/8/16.
- */
-public class TrendsFragment extends Fragment {
+public class IndiaMapFragment extends Fragment {
 
     private WebView mWebView;
     private ProgressBar progressBar;
-    private String url="http://ec2-13-234-19-254.ap-south-1.compute.amazonaws.com:3000/faq";
+    private String url="http://ec2-13-234-19-254.ap-south-1.compute.amazonaws.com:3000/map";
     private String url1="https://www.covid19india.org/";
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate
-                (R.layout.fragment_trends,container,false);
+                (R.layout.fragment_india_map,container,false);
         return v;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mWebView=(WebView)view.findViewById(R.id.webview1);
-        progressBar=(ProgressBar)view.findViewById(R.id.activity_main_pb_1);
+        mWebView=(WebView)view.findViewById(R.id.webview2);
+        progressBar=(ProgressBar)view.findViewById(R.id.activity_main_pb_2);
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.getSettings().setDomStorageEnabled(true);
         mWebView.setWebViewClient(new WebViewClient(){

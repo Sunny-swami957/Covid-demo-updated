@@ -14,6 +14,17 @@
             android:icon="@drawable/ic_inbox_black"
             android:title="@string/a1" />
 
+        <item
+            android:id="@+id/a2"
+            android:checked="false"
+            android:icon="@drawable/ic_star_black"
+            android:title="Spread Trends" />
+
+        <item
+            android:id="@+id/a3"
+            android:checked="false"
+            android:icon="@drawable/ic_email_black"
+            android:title="India Map" />
 
     </group>
 </menu>

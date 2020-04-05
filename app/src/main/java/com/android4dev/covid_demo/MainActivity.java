@@ -82,8 +82,25 @@ public class MainActivity extends AppCompatActivity {
                         a1FragmentTransaction.commit();
 
                         return true;
+                    case R.id.a2:
 
+                        TrendsFragment a2fragment = new TrendsFragment();
+                        android.support.v4.app.FragmentTransaction a2FragmentTransaction
+                                = getSupportFragmentManager().beginTransaction();
+                        a2FragmentTransaction.replace(R.id.frame,a2fragment).addToBackStack("trends");
+                        a2FragmentTransaction.commit();
 
+                        return true;
+
+                    case R.id.a3:
+
+                        IndiaMapFragment a3fragment = new IndiaMapFragment();
+                        android.support.v4.app.FragmentTransaction a3FragmentTransaction
+                                = getSupportFragmentManager().beginTransaction();
+                        a3FragmentTransaction.replace(R.id.frame,a3fragment).addToBackStack("map");
+                        a3FragmentTransaction.commit();
+
+                        return true;
 
 
                     default:
@@ -195,48 +212,25 @@ public class MainActivity extends AppCompatActivity {
         if (x > 0) {
 
 
-            getFragmentManager().popBackStack();
-                    String s=getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-2).getName();
-                    Log.d("Tag",getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-2).getName());
+
+                    String s=getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getName();
+
+                    Log.d("Tag",getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getName());
+                    getSupportFragmentManager().popBackStack();
                     if(s=="home")
+                    {
+                        finish();
+                        super.onBackPressed();
+                    }else
                     {
                         HomeFragment homefragment = new HomeFragment(mainActivity,p);
                         android.support.v4.app.FragmentTransaction homeFragmentTransaction
                                 = getSupportFragmentManager().beginTransaction();
-                        homeFragmentTransaction.replace(R.id.frame,homefragment).addToBackStack("home");
+                        homeFragmentTransaction.replace(R.id.frame,homefragment);
                         homeFragmentTransaction.commit();
-                    }else if(s=="tracker")
-                    {
-                        TrackerFragment a1fragment = new TrackerFragment();
-                        android.support.v4.app.FragmentTransaction a1FragmentTransaction
-                                = getSupportFragmentManager().beginTransaction();
-                        a1FragmentTransaction.replace(R.id.frame,a1fragment).addToBackStack("tracker");
-                        a1FragmentTransaction.commit();
-                    }else if(s=="self")
-                    {
-                        SelfAssessmentFragment homefragment = new SelfAssessmentFragment(mainActivity);
-                        android.support.v4.app.FragmentTransaction homeFragmentTransaction
-                                = getSupportFragmentManager().beginTransaction();
-                        homeFragmentTransaction.replace(R.id.frame,homefragment).addToBackStack("self");
-                        homeFragmentTransaction.commit();
-                    }else if(s=="help")
-                    {
-                        HelpLinesFragment homefragment1 = new HelpLinesFragment(mainActivity);
-                        android.support.v4.app.FragmentTransaction homeFragmentTransaction1
-                                = getSupportFragmentManager().beginTransaction();
-                        homeFragmentTransaction1.replace(R.id.frame,homefragment1).addToBackStack("help");
-                        homeFragmentTransaction1.commit();
-                    }else if(s=="test")
-                    {
-                        TestCenterFragment homefragment2 = new TestCenterFragment();
-                        android.support.v4.app.FragmentTransaction homeFragmentTransaction2
-                                = getSupportFragmentManager().beginTransaction();
-                        homeFragmentTransaction2.replace(R.id.frame,homefragment2).addToBackStack("test");
-                        homeFragmentTransaction2.commit();
                     }
 
-        } else {
-            super.onBackPressed();
         }
+
     }
 }

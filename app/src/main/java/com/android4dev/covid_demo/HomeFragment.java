@@ -3,7 +3,9 @@ package com.android4dev.covid_demo;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,7 +13,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 /**
@@ -24,6 +30,9 @@ public class HomeFragment extends Fragment {
     private TextView h1TextView,h2TextView,h3TextView,h4TextView,h5TextView;
     private LinearLayout SALayout,HLLayout,TCLayout,safetyLayout,isolateLayout1,isolateLayout2,isolateLayout;
     private MainActivity mainActivity;
+    private WebView mWebView;
+    private String url="http://ec2-13-234-19-254.ap-south-1.compute.amazonaws.com:3000/banner";
+
     private int pk;
     @SuppressLint("ValidFragment")
     public HomeFragment(MainActivity m,int p)
@@ -60,6 +69,18 @@ public class HomeFragment extends Fragment {
         SALayout=(LinearLayout)view.findViewById(R.id.self_ass);
         HLLayout=(LinearLayout)view.findViewById(R.id.hrlp_line);
         TCLayout=(LinearLayout)view.findViewById(R.id.test_center);
+        mWebView=(WebView)view.findViewById(R.id.banner_webview);
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.getSettings().setDomStorageEnabled(true);
+        mWebView.setWebViewClient(new WebViewClient(){
+
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                // DO NOT CALL SUPER METHOD
+                handler.proceed();
+            }
+        });
+        mWebView.loadUrl(url);
         setPage(pk);
         ddTextView.setOnClickListener(new View.OnClickListener() {
             @Override

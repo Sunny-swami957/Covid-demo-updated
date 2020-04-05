@@ -2,6 +2,8 @@ package com.android4dev.covid_demo;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.http.SslError;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -35,9 +38,10 @@ import im.delight.android.webview.AdvancedWebView;
  */
 public class TrackerFragment extends Fragment {
 
-    private AdvancedWebView mWebView;
-    private String mHtmlString1,mHtmlString2,mHtmlString3;
+    private WebView mWebView;
     private ProgressBar progressBar;
+    private String url="http://ec2-13-234-19-254.ap-south-1.compute.amazonaws.com:3000/";
+    private String url1="https://www.covid19india.org/";
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,12 +55,30 @@ public class TrackerFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mWebView=(AdvancedWebView)view.findViewById(R.id.webview);
+        mWebView=(WebView)view.findViewById(R.id.webview);
         progressBar=(ProgressBar)view.findViewById(R.id.activity_main_pb);
         mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.setWebViewClient(new MyWebViewClient(this));
+        mWebView.getSettings().setDomStorageEnabled(true);
+        mWebView.setWebViewClient(new WebViewClient(){
+
+            @Override
+            public void onPageStarted (WebView view,String url, Bitmap favicon)
+            {
+                showProgressBar(View.VISIBLE);
+            }
+            @Override
+            public void onPageFinished (WebView view, String url)
+            {
+                showProgressBar(View.GONE);
+            }
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                // DO NOT CALL SUPER METHOD
+                handler.proceed();
+            }
+        });
         mWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-        mWebView.loadUrl("https://www.covid19india.org/");
+        mWebView.loadUrl(url);
 
     }
 
